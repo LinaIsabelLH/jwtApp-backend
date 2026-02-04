@@ -1,4 +1,4 @@
-# TP Sécuriser son Application Web - Backend
+# TP Sécuriser son Application Web - Backend Django
 
 ## Description
 API RESTful Django pour gérer l'authentification et l'autorisation avec JWT.  

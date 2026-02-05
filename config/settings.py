@@ -74,14 +74,17 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-CORS_ALLOW_CREDENTIALS = True
-
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]  # port Vite
-
-SESSION_COOKIE_SECURE = False  # True en prod
-CSRF_COOKIE_SECURE = False
-
 ROOT_URLCONF = 'config.urls'
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # frontend
+]
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost:5173"]
+
+SESSION_COOKIE_SECURE = False  # True en prod HTTPS
+CSRF_COOKIE_SECURE = False
 
 TEMPLATES = [
     {
@@ -98,9 +101,6 @@ TEMPLATES = [
     },
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",   # dev
-]
 
 WSGI_APPLICATION = 'config.wsgi.application'
 

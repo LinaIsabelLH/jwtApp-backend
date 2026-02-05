@@ -8,9 +8,37 @@ from rest_framework.permissions import IsAuthenticated
 from . import serializers
 from . import permissions
 
-# Create your views here.
+
 class CustomTokenView(TokenObtainPairView):
-    serializer_class= serializers.CustomTokenSerializer
+    serializer_class = serializers.CustomTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        refresh_token = response.data["refresh"]
+
+        response.set_cookie(
+            key="refresh_token",
+            value=refresh_token,
+            httponly=True,
+            secure=False,
+            samesite="Lax",
+        )
+
+        del response.data["refresh"]
+
+        return response
+
+
+class CookieRefreshView(APIView):
+    def post(self, request):
+        refresh_token = request.COOKIES.get("refresh_token")
+
+        if not refresh_token:
+            return Response({"detail": "No refresh token"}, status=401)
+
+        token = RefreshToken(refresh_token)
+        return Response({"access": str(token.access_token)})
 
 
 @api_view(["GET"])

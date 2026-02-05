@@ -41,7 +41,6 @@ class CustomUser (AbstractUser):
 
     account_tier = models.CharField(max_length=20, choices=ACCOUNT_TIERS, default="FREE")
     status= models.CharField(max_length=20, choices=STATUS_CHOICES, default="ACTIVE")
-    is_staff = models.BooleanField()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS =[]

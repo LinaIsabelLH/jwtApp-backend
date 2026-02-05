@@ -4,6 +4,7 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
+        token["email"] = user.email
         token ["account_tier"] = user.account_tier
         token ["is_staff"] = user.is_staff
         return token

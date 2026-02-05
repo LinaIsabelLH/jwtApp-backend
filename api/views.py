@@ -10,6 +10,12 @@ from . import permissions
 
 
 class CustomTokenView(TokenObtainPairView):
+    """
+    Cette vue gère la connexion :
+    - Crée un pair de tokens (access + refresh) via le serializer personnalisé
+    - Stocke le refresh token dans un cookie HttpOnly (inaccessible depuis JS)
+    - Supprime le refresh token du corps de la réponse pour sécurité
+    """
     serializer_class = serializers.CustomTokenSerializer
 
     def post(self, request, *args, **kwargs):
@@ -31,6 +37,12 @@ class CustomTokenView(TokenObtainPairView):
 
 
 class CookieRefreshView(APIView):
+    """
+    Cette vue permet de renouveler l'access token automatiquement :
+    - Le refresh token est lu depuis le cookie HttpOnly
+    - Si le refresh token est présent et valide, un nouvel access token est renvoyé
+    - Si absent ou invalide, renvoie une erreur 401
+    """
     def post(self, request):
         refresh_token = request.COOKIES.get("refresh_token")
 
